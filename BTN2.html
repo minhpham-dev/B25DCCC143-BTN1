@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máy tính đơn giản</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: arial;
+            background: #f77f00;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background-color: #0f3460;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            width: 320px;
+        }
+
+        .display {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            font-size: 2.2rem;
+            text-align: right;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            min-height: 70px;
+            word-wrap: break-word;
+            overflow-x: auto;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            font-size: 1.4rem;
+            padding: 18px 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-number {
+            background-color: #e94560;
+            color: white;
+        }
+
+        .btn-number:hover {
+            background-color: #c73a52;
+        }
+
+        .btn-operator {
+            background-color: #533483;
+            color: white;
+        }
+
+        .btn-operator:hover {
+            background-color: #422a6b;
+        }
+
+        .btn-equal {
+            background-color: #00b4d8;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .btn-equal:hover {
+            background-color: #0096c7;
+        }
+
+        .btn-clear {
+            background-color: #f77f00;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .btn-clear:hover {
+            background-color: #d62828;
+        }
+
+        .title {
+            text-align: center;
+            color: #e0e0e0;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="title">Máy tính đơn giản</div>
+        
+        <!-- Màn hình hiển thị -->
+        <div class="display" id="display">0</div>
+
+        <div class="buttons">
+            <!-- Hàng 1 -->
+            <button class="btn-clear" id="btn-clear">Clear</button>
+            <button class="btn-operator" data-value="/">/</button>
+            <button class="btn-operator" data-value="*">*</button>
+
+            <!-- Hàng 2 -->
+            <button class="btn-number" data-value="7">7</button>
+            <button class="btn-number" data-value="8">8</button>
+            <button class="btn-number" data-value="9">9</button>
+            <button class="btn-operator" data-value="-">-</button>
+
+            <!-- Hàng 3 -->
+            <button class="btn-number" data-value="4">4</button>
+            <button class="btn-number" data-value="5">5</button>
+            <button class="btn-number" data-value="6">6</button>
+            <button class="btn-operator" data-value="+">+</button>
+
+            <!-- Hàng 4 -->
+            <button class="btn-number" data-value="1">1</button>
+            <button class="btn-number" data-value="2">2</button>
+            <button class="btn-number" data-value="3">3</button>
+            <button class="btn-equal" id="btn-equal">=</button>
+
+            <!-- Hàng 5 -->
+            <button class="btn-number" data-value="0" style="grid-column: span 2;">0</button>
+            <button class="btn-number" data-value=".">.</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById("display");
+        const buttons = document.querySelectorAll("button");
+
+        buttons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                const value = button.getAttribute("data-value");
+                const id = button.id;
+
+                if (id === "btn-clear") {
+                    display.innerText = "0";
+                    return;
+                }
+
+                if (id === "btn-equal") {
+                    calculate();
+                    return;
+                }
+
+                if (value !== null) {
+                    appendValue(value);
+                }
+            });
+        });
+
+  
+        function appendValue(value) {
+   
+            if (display.innerText === "0" && value !== ".") {
+                display.innerText = value;
+            } else {
+                display.innerText += value;
+            }
+        }
+
+        function calculate() {
+            const expression = display.innerText;
+
+
+            if (!expression || expression === "0") {
+                return;
+            }
+
+            const hasOperator = /[+\-*/]/.test(expression);
+            if (!hasOperator) {
+                return;
+            }
+
+            try {
+
+                const result = Function('"use strict"; return (' + expression + ')')();
+
+                if (isNaN(result) || !isFinite(result)) {
+                    display.innerText = "Error";
+                } else {
+                    // Làm tròn nếu cần và hiển thị
+                    display.innerText = Number(result.toFixed(8)).toString();
+                }
+            } catch (error) {
+                display.innerText = "Error";
+            }
+        }
+    </script>
+</body>
+</html>
