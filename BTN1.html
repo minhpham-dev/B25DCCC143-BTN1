@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang giới thiệu cá nhân</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+        }
+        header {
+            background-color: #0f3460;
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        body.dark-mode header {
+            background-color: #16213e;
+        }
+
+        nav {
+            background-color: #e94560;
+            padding: 0.8rem;
+            text-align: center;
+        }
+
+        body.dark-mode nav {
+            background-color: #e94560;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            flex: 1;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            width: 100%;
+        }
+
+        .welcome {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .welcome {
+            background-color: #16213e;
+        }
+
+        .intro {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .intro {
+            background-color: #16213e;
+        }
+
+        button {
+            background-color: #e94560;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: #c73a52;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        footer {
+            background-color: #0f3460;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        body.dark-mode footer {
+            background-color: #16213e;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Trang giới thiệu cá nhân</h1>
+        <p>Họ và tên: [Điền tên của bạn]</p>
+    </header>
+
+    <nav>
+        <a href="#about">Giới thiệu</a>
+        <a href="#skills">Kỹ năng</a>
+        <a href="#contact">Liên hệ</a>
+    </nav>
+
+    <main>
+        <div class="welcome" id="greeting"></div>
+
+        <section class="intro" id="about">
+            <h2>Về tôi</h2>
+            <p>
+                Xin chào! Tôi là sinh viên Học viện Công nghệ Bưu chính Viễn thông (PTIT).
+                Đây là trang giới thiệu cá nhân được tạo trong bài thực hành HTML + JavaScript.
+            </p>
+        </section>
+
+        <button id="toggleBgBtn">Đổi màu nền</button>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 - Bài tập thực hành 1 | PTIT</p>
+    </footer>
+
+    <script>
+        function showGreeting() {
+            const now = new Date();
+            const hour = now.getHours();
+            let greetingText = "";
+
+            if (hour >= 5 && hour < 12) {
+                greetingText = "Chào buổi sáng! Chúc bạn một ngày mới tràn đầy năng lượng ";
+            } else if (hour >= 12 && hour < 18) {
+                greetingText = "Chào buổi chiều! Hy vọng bạn đang có một buổi chiều tuyệt vời ";
+            } else {
+                greetingText = "Chào buổi tối! Chúc bạn buổi tối thư giãn và vui vẻ ";
+            }
+
+            const timeString = now.toLocaleTimeString('vi-VN');
+            greetingText += ` (Hiện tại là ${timeString})`;
+
+            document.getElementById("greeting").innerText = greetingText;
+        }
+
+        showGreeting();
+        const toggleBtn = document.getElementById("toggleBgBtn");
+
+        toggleBtn.addEventListener("click", function () {
+
+            document.body.classList.toggle("dark-mode");
+
+
+            if (document.body.classList.contains("dark-mode")) {
+                toggleBtn.innerText = "Chuyển sang Light Mode";
+            } else {
+                toggleBtn.innerText = "Đổi màu nền";
+            }
+        });
+    </script>
+</body>
+</html>
